@@ -7,7 +7,9 @@ const DarkModeButton: React.FC = () => {
     <IconButton 
       aria-label="dark-mode-button" 
       variant="solid"
-      variantColor={ colorMode === "dark" ? "yellow" : "gray"}
+      bg="gray.100"
+      color="black"
+      _hover={{ opacity: 0.9 }}
       icon={ colorMode === "dark" ? "sun" : "moon" }
       onClick={toggleColorMode}
     />

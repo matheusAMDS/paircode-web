@@ -1,10 +1,11 @@
-import { Flex,  Box } from '@chakra-ui/core'
+import { Flex, Box } from '@chakra-ui/core'
 import { useContext } from 'react'
 
 import Logo from 'components/Logo'
 import DarkModeButton from 'components/DarkModeButton'
 import Button from 'components/Button'
 import NewPost from 'components/NewPost'
+
 import { AuthContext } from 'contexts/AuthContext'
 
 const Header: React.FC = () => {
@@ -23,19 +24,26 @@ const Header: React.FC = () => {
 
         <Box>
           {!Auth.isLogged ? (
-            <Button mx="5px" size="md" href="/signin">
-              Entrar
-            </Button>
+            <>
+              <DarkModeButton />
+              <Button mx="5px" size="md" href="/signin">
+                Entrar
+              </Button>
+            </>
           ) : (
             <>
-              <NewPost />
-              <Button mx="5px" size="md" onClick={Auth.logout}>
+              <DarkModeButton />
+              <Button href="/users/me" size="md" mx="5px">Perfil</Button>
+              <Button 
+                size="md" 
+                onClick={Auth.logout} 
+                variant="ghost" 
+                p={2} color="blue.400"
+              >
                 Sair
               </Button>
             </>
           )}
-
-          <DarkModeButton />
         </Box>
       </Flex>
     </Box>

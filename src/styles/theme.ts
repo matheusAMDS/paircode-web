@@ -14,12 +14,14 @@ const customTheme: DefaultTheme = {
   },
   colors: {
     ...theme.colors,
-    blue: {
-      ...theme.colors.blue,
-      '300': '#7289DA'
+    green: {
+      ...theme.colors.green,
+      '400': '#25D366'
     }
   },
- 
+  icons: {
+    ...theme.icons,
+  }
 }
 
 export default customTheme

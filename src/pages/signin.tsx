@@ -68,11 +68,7 @@ const SignIn: React.FC = () => {
           m="1rem 0"
           type="password"
         />
-        <Button 
-          submit
-          size="lg"
-          w="full"
-        >
+        <Button type="submit" size="lg" w="full">
           Login
         </Button>
         

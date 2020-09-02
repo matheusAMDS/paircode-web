@@ -85,11 +85,11 @@ const Me: React.FC<Props> = () => {
               {user.firstName} {user.lastName}
             </Heading>
             <Box>
-              <Badge variant="solid" variantColor="red" mr={4} fontSize={14}>
+              <Badge variant="solid" variantColor="red" mr={4} fontSize={14} p={1}>
                 {user.email}
               </Badge>
-              <Badge variant="solid" variantColor="purple" fontSize={14}>
-                {user.discord}
+              <Badge variant="solid" variantColor="green" fontSize={14} p={1} >
+                {user.whatsapp}
               </Badge>
             </Box>
             <Text fontSize="xl" mt={4}>{user.bio}</Text>

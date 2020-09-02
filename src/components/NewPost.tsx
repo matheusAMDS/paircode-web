@@ -1,5 +1,6 @@
 import { useForm } from 'react-hook-form'
 import { useRouter } from 'next/router'
+import { useContext } from 'react'
 import { 
   Modal, 
   ModalOverlay, 
@@ -16,18 +17,36 @@ import {
 
 import Button from 'components/Button'
 import FormInput from 'components/FormInput'
+
 import PostService, { NewPostParams } from 'services/post'
+
+import { AuthContext } from 'contexts/AuthContext'
 
 const NewPostModalButton: React.FC = () => {
   const router = useRouter()
   const toast = useToast()
+  const { isLogged } = useContext(AuthContext)
   const { register, handleSubmit } = useForm<NewPostParams>()
   const { isOpen, onClose, onOpen } = useDisclosure()
+
+  const openNewPostModal = () => {
+    if (!isLogged) {
+      toast({
+        title: 'Erro',
+        description: 'Usuário não está logado.',
+        duration: 4000,
+        isClosable: true,
+        status: 'error'
+      })
+      router.push('/signin')
+    } else {
+      onOpen()
+    }
+  }
 
   const onSubmit = handleSubmit(async values => {
     try {
       await PostService.store(values)
-      onClose()
       toast({
         title: "Sucesso",
         description: "Nova postagem concluída.",
@@ -35,6 +54,7 @@ const NewPostModalButton: React.FC = () => {
         status: 'success',
         isClosable: true
       })
+      onClose()
       router.push('/search')
     } catch (error) {
       toast({
@@ -49,7 +69,7 @@ const NewPostModalButton: React.FC = () => {
 
   return (
     <>
-      <Button onClick={onOpen} size="md">
+      <Button onClick={openNewPostModal} size="md">
         Postar
       </Button>
 
@@ -68,7 +88,7 @@ const NewPostModalButton: React.FC = () => {
             </ModalBody>
 
             <ModalFooter>
-              <Button size="md" submit>Postar</Button>
+              <Button size="md" type="submit">Postar</Button>
             </ModalFooter>
           </ModalContent>
         </Box>

@@ -16,7 +16,7 @@ const Layout: React.FC = ({ children }) => {
         minH="85vh"
         maxW="1200px"
         mx="auto"
-        py={16}
+        py={16} px={3}
         flexDirection="column"
         alignItems="center"
         justifyContent="center"

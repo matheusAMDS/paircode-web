@@ -23,7 +23,6 @@ class AuthService {
 
     localStorage.setItem('@token', token as string)
     localStorage.setItem('@user', JSON.stringify(user as User))
-    api.defaults.headers.Authorization = `Bearer ${token}`
   }
 
   public logout(): void {

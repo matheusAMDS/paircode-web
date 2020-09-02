@@ -22,21 +22,32 @@ interface NewPostResponse {
 
 class PostService {
   public async index(userId?: number): Promise<Post[]> {
-    const { data } = await api.get<PostIndexResponse>('/posts', userId ? (
-      {
-        params: { userId }
-      }
-    ) : undefined)
+    const { data } = await api.get<PostIndexResponse>(
+      '/posts', 
+      userId ? { params: { userId } } : undefined
+    )
 
     return data.posts as Post[]
   }
 
   public async store(params: NewPostParams): Promise<void> {
-    await api.post<NewPostResponse>('/posts', params)
+    const token = localStorage.getItem('@token')
+    
+    await api.post<NewPostResponse>('/posts', params, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
   }
 
   public async delete(id: number) {
-    await api.delete(`/posts/${id}`)
+    const token = localStorage.getItem('@token')
+
+    await api.delete(`/posts/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
   }
 }
 

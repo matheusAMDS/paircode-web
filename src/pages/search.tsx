@@ -15,6 +15,8 @@ import {
 import Layout from 'components/Layout'
 import Button from 'components/Button'
 import PostCard from 'components/PostCard'
+import NewPost from 'components/NewPost'
+
 import PostService, { Post } from 'services/post'
 
 interface Props {
@@ -38,10 +40,12 @@ const SearchPartners: React.FC<Props> = ({ posts }) => {
         <title>Encontre um parceiro | PairCode</title>
       </Head>
       
-      <Heading>Encontre um parceiro:</Heading>
-      <Button href="/users/me">oi</Button>
+      <Box>
+        <Heading>Encontre um parceiro ou <NewPost /></Heading>
+        
+      </Box>
 
-      <Flex my={8} w="full">
+      <Flex my={8} w="full" flexWrap="wrap">
         { posts && posts.map(post => ( 
           <PostCard post={post} key={post.id} />
         ))}

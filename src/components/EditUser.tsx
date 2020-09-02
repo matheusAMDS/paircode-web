@@ -66,7 +66,7 @@ const EditUser: React.FC<Props> = ({ user }) => {
             </ModalBody>
 
             <ModalFooter>
-              <Button size="md" submit>Concluir</Button>
+              <Button size="md" type="submit">Concluir</Button>
             </ModalFooter>
           </ModalContent>
         </Box>

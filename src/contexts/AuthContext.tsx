@@ -1,8 +1,6 @@
 import { createContext, useState, useEffect } from 'react'
 import jwt from 'jsonwebtoken'
-import { useRouter } from 'next/router'
 
-import api from 'services/api'
 import AuthService, { SignInParams } from 'services/auth'
 
 interface Auth {
@@ -21,7 +19,6 @@ interface Decoded {
 export const AuthContext = createContext({} as Auth)
 
 export const AuthProvider: React.FC = ({ children }) => {
-  const router = useRouter()
   const [ isLogged, setIsLogged ] = useState(!!localStorage.getItem('@token'))
 
   useEffect(() => {
@@ -31,18 +28,18 @@ export const AuthProvider: React.FC = ({ children }) => {
       setIsLogged(false)
     } else {
       const decoded = jwt.decode(actualToken) as Decoded
-      const tokenIsValid = decoded.exp * 1000 > Date.now()
-      console.log(decoded.exp* 1000, Date.now())
-      console.log(tokenIsValid)
-      setIsLogged(tokenIsValid)
-      api.defaults.headers.Authorization = `Bearer ${actualToken}`
+      
+      setIsLogged(decoded.exp * 1000 > Date.now())
     }
-  }, [])
+  })
 
   return (
     <AuthContext.Provider value={{
       isLogged,
-      signIn: AuthService.signin,
+      signIn: async (params) => {
+        await AuthService.signin(params)
+        setIsLogged(true)
+      },
       logout: () => {
         AuthService.logout()
         setIsLogged(false)

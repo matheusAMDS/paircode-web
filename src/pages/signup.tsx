@@ -1,25 +1,40 @@
 import { useForm } from 'react-hook-form'
 import NextLink from 'next/link'
+import { useRouter } from 'next/router'
 import Head from 'next/head'
-import { Box, Flex, Heading, Link } from '@chakra-ui/core'
+import { Box, Flex, Heading, Link, useToast } from '@chakra-ui/core'
 
 import Layout from 'components/Layout'
 import FormInput from 'components/FormInput'
 import Button from 'components/Button'
 
-interface SignUpData {
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
-  discord: string;
-}
+import UserService, { NewUserParams } from 'services/user'
 
 const SignUp: React.FC = () => {
-  const { register, handleSubmit } = useForm<SignUpData>()
+  const toast = useToast()
+  const router = useRouter()
+  const { register, handleSubmit } = useForm<NewUserParams>()
 
-  const onSubmit = handleSubmit(data => {
-    console.log(data)
+  const onSubmit = handleSubmit(async data => {
+    try {
+      await UserService.create(data)
+      toast({
+        title: 'Sucesso',
+        description: 'Usuário cadastrado com sucesso.',
+        status: 'success',
+        isClosable: true,
+        duration: 4000
+      })
+      router.push('/signin')
+    } catch (error) {
+      toast({
+        title: 'Erro',
+        description: 'Ocorreu um erro ao cadastrar o usuário.',
+        status: 'error',
+        isClosable: true,
+        duration: 4000
+      })
+    }
   })
 
   return (
@@ -66,13 +81,13 @@ const SignUp: React.FC = () => {
           type="password"
         />
         <FormInput 
-          name="discord"
-          placeholder="Discord ID" 
+          name="whatsapp"
+          placeholder="Whatsapp (EX. +5599999999999)" 
           register={register}
           m="1rem 0"
         />
         <Button 
-          submit
+          type="submit"
           size="lg"
           w="full"
         >
