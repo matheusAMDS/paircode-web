@@ -1,7 +1,6 @@
-import { Input, Box, Avatar, Icon } from '@chakra-ui/core'
+import { Box } from '@chakra-ui/core'
 import { useCallback, useState, useEffect } from 'react'
 import { useDropzone } from 'react-dropzone'
-import { MdAddAPhoto } from 'react-icons/md'
 
 interface Props {
   onChange: (name: string, value: File) => void;
@@ -36,7 +35,8 @@ const Upload: React.FC<Props> = ({ defaultUrl, register, onChange, name }) => {
       mx="auto"
       backgroundImage={`url(${avatarUrl})`}
       backgroundPosition="center"
-      backgroundSize="cover"
+      backgroundSize={100}
+      backgroundRepeat="no-repeat"
       cursor="pointer"
     >
       <input 

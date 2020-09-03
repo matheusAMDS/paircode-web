@@ -1,4 +1,5 @@
 import { useForm } from 'react-hook-form'
+import { mutate } from 'swr'
 import { 
   Modal, 
   ModalBody, 
@@ -32,6 +33,7 @@ const EditUser: React.FC<Props> = ({ user }) => {
   const onSubmit = handleSubmit(async values => {
     try {
       await UserService.update(values)
+      mutate('/users/me')
       onClose()
     } catch (error) {
       alert(error.message)
@@ -54,7 +56,7 @@ const EditUser: React.FC<Props> = ({ user }) => {
               <AvatarUpload
                 name="avatar"
                 register={register}
-                defaultUrl={user.avatar}
+                defaultUrl={user.avatar || '/camera.svg'}
                 onChange={setValue}
               />
               <Textarea 

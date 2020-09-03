@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import { useRouter } from 'next/router'
-import { useState, useEffect, useContext } from 'react'
+import { useEffect } from 'react'
 import useSWR from 'swr'
 import { 
   Box, 
@@ -10,7 +10,8 @@ import {
   Flex, 
   Avatar,
   Stack,
-  Badge
+  Badge,
+  Spinner
 } from '@chakra-ui/core'
 
 import Layout from 'components/Layout'
@@ -21,8 +22,6 @@ import EditUser from 'components/EditUser'
 import UserService, { User } from 'services/user'
 import PostService, { Post } from 'services/post'
 
-import { AuthContext } from 'contexts/AuthContext'
-
 interface Props {
   user: User;
   posts: Post[];
@@ -31,13 +30,11 @@ interface Props {
 const Me: React.FC<Props> = () => {
   const toast = useToast()
   const router = useRouter()
-  const { isLogged } = useContext(AuthContext)
-  const [ posts, setPosts ] = useState<Post[]>([])
-  const [ user, setUser ] = useState<User>({} as User)
+  const { data, error, mutate } = useSWR('/users/me', () => UserService.me())
 
   const deletePost = async (id: number) => {
     await PostService.delete(id)
-    setPosts(posts.filter(post => post.id !== id))
+    mutate()
     toast({
       title: 'Sucesso',
       description: 'Postagem deletada com sucesso.',
@@ -47,25 +44,33 @@ const Me: React.FC<Props> = () => {
   }
 
   useEffect(() => {
-    async function loadData() {
-      if (!isLogged) {
+    if (error) {
+      if (error.response) {
         toast({
           title: 'Erro',
-          description: 'Usuário não está logado.',
+          description: 'O usuário não está logado.',
           duration: 3000,
           status: 'error'
         })
         router.push('/signin')
       } else {
-        const user = await UserService.me()
-        const posts = await PostService.index(user.id)
-        
-        setPosts(posts)
-        setUser(user)
+        toast({
+          title: 'Erro',
+          description: 'Ocorreu um erro inesperado, tente novamente mais tarde.',
+          duration: 3000,
+          status: 'error'
+        })
+        router.back()
       }
     }
-    loadData()
-  }, [isLogged])
+  }, [])
+
+  if (!data)
+    return (
+      <Layout>
+        <Spinner size="xl" />
+      </Layout>
+    )
 
   return (
     <Layout>
@@ -75,25 +80,25 @@ const Me: React.FC<Props> = () => {
 
       <Card w="full" maxW={900}>
         <Flex flexWrap="wrap"> 
-          <Avatar src={user.avatar} w={[170, 180]} h={[170, 180]} mx='auto' />
+          <Avatar src={data.avatar} w={[170, 180]} h={[170, 180]} mx='auto' />
           <Stack
             mx={8}
             aria-label="user-details"
             w="full" maxW={610}
           >
             <Heading as="h2">
-              {user.firstName} {user.lastName}
+              {data.firstName} {data.lastName}
             </Heading>
             <Box>
               <Badge variant="solid" variantColor="red" mr={4} fontSize={14} p={1}>
-                {user.email}
+                {data.email}
               </Badge>
               <Badge variant="solid" variantColor="green" fontSize={14} p={1} >
-                {user.whatsapp}
+                {data.whatsapp}
               </Badge>
             </Box>
-            <Text fontSize="xl" mt={4}>{user.bio}</Text>
-            <EditUser user={user} />
+            <Text fontSize="xl" mt={4}>{data.bio}</Text>
+            <EditUser user={data} />
           </Stack>
         </Flex>
       </Card>
@@ -101,7 +106,7 @@ const Me: React.FC<Props> = () => {
       <Box as="section" aria-label="user-posts" w="full" my={8}>
         <Heading as="h3" textAlign="center">Minhas postagens</Heading>
         <Flex my={8} w="full" flexWrap="wrap">
-          {posts.map(post => (
+          {data.posts && data.posts.map(post => (
             <PostCard 
               post={post} 
               key={post.id} 

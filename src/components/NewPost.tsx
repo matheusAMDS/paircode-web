@@ -1,6 +1,7 @@
 import { useForm } from 'react-hook-form'
 import { useRouter } from 'next/router'
 import { useContext } from 'react'
+import { mutate } from 'swr'
 import { 
   Modal, 
   ModalOverlay, 
@@ -47,6 +48,7 @@ const NewPostModalButton: React.FC = () => {
   const onSubmit = handleSubmit(async values => {
     try {
       await PostService.store(values)
+      mutate('/posts')
       toast({
         title: "Sucesso",
         description: "Nova postagem concluída.",

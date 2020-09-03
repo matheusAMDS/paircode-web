@@ -44,7 +44,7 @@ const PostCard: React.FC<Props> = ({ post, forUser, onClose }) => {
     }
   }
 
-  return (
+  return post.user && (
     <Card w={360} mx={['auto', 'auto', 4, 4]} my={2}>
       { forUser && (
         <CloseButton 

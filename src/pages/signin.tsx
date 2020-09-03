@@ -31,7 +31,7 @@ const SignIn: React.FC = () => {
     } catch (error) {
       toast({
         title: "Error",
-        description: error.message,
+        description: error.response.data.error,
         duration: 5000,
         status: 'error',
         isClosable: true

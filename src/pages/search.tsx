@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import Link from 'next/link'
+import useSWR from 'swr'
 import { GetServerSideProps } from 'next'
 import { 
   Flex, 
@@ -17,7 +18,7 @@ import Button from 'components/Button'
 import PostCard from 'components/PostCard'
 import NewPost from 'components/NewPost'
 
-import PostService, { Post } from 'services/post'
+import PostService, { Post, usePost } from 'services/post'
 
 interface Props {
   posts: Post[];
@@ -25,7 +26,7 @@ interface Props {
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const posts = await PostService.index()
-
+  
   return {
     props: {
       posts
@@ -34,6 +35,8 @@ export const getServerSideProps: GetServerSideProps = async () => {
 }
 
 const SearchPartners: React.FC<Props> = ({ posts }) => {
+  const { data } = useSWR('/posts', () => PostService.index(), { initialData: posts })
+
   return (
     <Layout>
       <Head>
@@ -46,12 +49,13 @@ const SearchPartners: React.FC<Props> = ({ posts }) => {
       </Box>
 
       <Flex my={8} w="full" flexWrap="wrap">
-        { posts && posts.map(post => ( 
+        { data && data.map(post => ( 
           <PostCard post={post} key={post.id} />
         ))}
       </Flex>
     </Layout>
   )
+  
 }
 
 export default SearchPartners

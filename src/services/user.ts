@@ -1,5 +1,8 @@
 import api from 'services/api'
 
+import { Post } from 'services/post'
+import { AxiosResponse } from 'axios'
+
 export interface User {
   id: number;
   firstName: string;
@@ -8,6 +11,7 @@ export interface User {
   whatsapp: string;
   bio: string;
   email: string;
+  posts?: Post[];
 }
 
 interface ShowUserResponse {
@@ -30,6 +34,7 @@ interface UpdateUserParams {
 class UserService {
   public async me() {
     const token = localStorage.getItem('@token')
+
     const { data } = await api.get<ShowUserResponse>('/users/me', {
       headers: {
         Authorization: token ? `Bearer ${token}` : undefined

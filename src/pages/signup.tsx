@@ -29,7 +29,7 @@ const SignUp: React.FC = () => {
     } catch (error) {
       toast({
         title: 'Erro',
-        description: 'Ocorreu um erro ao cadastrar o usuário.',
+        description: error.response.data.error,
         status: 'error',
         isClosable: true,
         duration: 4000
