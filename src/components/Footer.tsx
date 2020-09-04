@@ -17,7 +17,6 @@ const Footer = () => {
       >
         Matheus Andrade
       </Link>
-      {""} | 2020
     </Box>
   )
 }

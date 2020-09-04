@@ -1,24 +1,13 @@
 import Head from 'next/head'
-import Link from 'next/link'
 import useSWR from 'swr'
 import { GetServerSideProps } from 'next'
-import { 
-  Flex, 
-  Box, 
-  Heading, 
-  Input, 
-  Image, 
-  Text,
-  Tag,
-  Divider,
-} from '@chakra-ui/core'
+import { Flex, Box, Heading, Spinner, Text } from '@chakra-ui/core'
 
 import Layout from 'components/Layout'
-import Button from 'components/Button'
 import PostCard from 'components/PostCard'
 import NewPost from 'components/NewPost'
 
-import PostService, { Post, usePost } from 'services/post'
+import PostService, { Post } from 'services/post'
 
 interface Props {
   posts: Post[];
@@ -45,14 +34,18 @@ const SearchPartners: React.FC<Props> = ({ posts }) => {
       
       <Box>
         <Heading>Encontre um parceiro ou <NewPost /></Heading>
-        
       </Box>
 
-      <Flex my={8} w="full" flexWrap="wrap">
-        { data && data.map(post => ( 
-          <PostCard post={post} key={post.id} />
-        ))}
-      </Flex>
+      { !data ? <Spinner size="xl" /> : (
+        <Flex my={8} w="full" flexWrap="wrap">
+          { data === [] 
+            ? <Text color="gray.500">Não há postagens a serem vizualizadas</Text>
+            : data.map(post => ( 
+              <PostCard post={post} key={post.id} />
+            ))
+          }
+        </Flex>
+      )}
     </Layout>
   )
   

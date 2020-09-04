@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
-import useSWR from 'swr'
+import useSWR, { mutate } from 'swr'
 import { 
   Box, 
   useToast, 
@@ -30,11 +30,12 @@ interface Props {
 const Me: React.FC<Props> = () => {
   const toast = useToast()
   const router = useRouter()
-  const { data, error, mutate } = useSWR('/users/me', () => UserService.me())
+  const { data, error } = useSWR('/users/me', () => UserService.me())
 
   const deletePost = async (id: number) => {
     await PostService.delete(id)
-    mutate()
+    mutate('/posts')
+    mutate('/users/me')
     toast({
       title: 'Sucesso',
       description: 'Postagem deletada com sucesso.',

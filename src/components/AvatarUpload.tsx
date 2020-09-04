@@ -35,7 +35,7 @@ const Upload: React.FC<Props> = ({ defaultUrl, register, onChange, name }) => {
       mx="auto"
       backgroundImage={`url(${avatarUrl})`}
       backgroundPosition="center"
-      backgroundSize={100}
+      backgroundSize='cover'
       backgroundRepeat="no-repeat"
       cursor="pointer"
     >

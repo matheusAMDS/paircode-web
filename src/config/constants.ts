@@ -1,5 +1,1 @@
-export const APP_URL = 'http://localhost:3000'
-
-export const PROTECTED_ROUTES = [
-  APP_URL + '/users/me',
-]
+export const API_URL = process.env.NEXT_PUBLIC_API_URL

@@ -56,7 +56,7 @@ const EditUser: React.FC<Props> = ({ user }) => {
               <AvatarUpload
                 name="avatar"
                 register={register}
-                defaultUrl={user.avatar || '/camera.svg'}
+                defaultUrl={user.avatar}
                 onChange={setValue}
               />
               <Textarea 

@@ -1,5 +1,6 @@
 import { useContext } from 'react'
 import { useRouter } from 'next/router'
+import { ImWhatsapp } from 'react-icons/im'
 import { 
   Flex, 
   Box,
@@ -62,7 +63,7 @@ const PostCard: React.FC<Props> = ({ post, forUser, onClose }) => {
         <Heading as="h3" fontSize="2xl" mt={2}>
           {post.user.firstName} {post.user.lastName}
         </Heading>
-        <Text mt={4} fontSize="md">
+        <Text mt={4} fontSize="md" minH={20}>
           {post.user.bio}
         </Text>
         <Box mt={4}>
@@ -72,6 +73,7 @@ const PostCard: React.FC<Props> = ({ post, forUser, onClose }) => {
           bg="green.400" 
           mt={5} w="full" 
           onClick={() => goToWhatsapp(post.user.whatsapp)}
+          leftIcon={ImWhatsapp}
         >
           Entre em contato
         </Button>

@@ -1,5 +1,3 @@
-import useSWR from 'swr'
-
 import api from 'services/api'
 import { User } from 'services/user'
 
@@ -50,22 +48,6 @@ class PostService {
         Authorization: `Bearer ${token}`
       }
     })
-  }
-}
-
-export const usePost = (userId?: number) => {  
-  const { data, error } = useSWR('/posts', async () => {
-    const { data } = await api.get<PostIndexResponse>('/posts', {
-      params: userId ? { userId } : undefined
-    })
-
-    return data.posts
-  })
-
-  return {
-    posts: data,
-    loading: !!data && !!error,
-    error
   }
 }
 

@@ -1,7 +1,6 @@
 import api from 'services/api'
 
 import { Post } from 'services/post'
-import { AxiosResponse } from 'axios'
 
 export interface User {
   id: number;
