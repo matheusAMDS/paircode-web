@@ -81,7 +81,11 @@ const Me: React.FC<Props> = () => {
 
       <Card w="full" maxW={900}>
         <Flex flexWrap="wrap"> 
-          <Avatar src={data.avatar} w={[170, 180]} h={[170, 180]} mx='auto' />
+          <Avatar 
+            src={data.avatar} 
+            w={[170, 180]} h={[170, 180]} mx='auto'
+            borderWidth={0}
+          />
           <Stack
             mx={8}
             aria-label="user-details"

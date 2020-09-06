@@ -1,9 +1,7 @@
 import Head from 'next/head'
-import Link from 'next/link'
 import { Text, Heading } from '@chakra-ui/core'
 
 import Layout from 'components/Layout'
-import Logo from 'components/Logo'
 import Button from 'components/Button'
 
 const Landing: React.FC = () => {
@@ -12,11 +10,17 @@ const Landing: React.FC = () => {
       <Head>
         <title>PairCode</title>
       </Head>
-      <Heading as="h1" fontSize="6xl" color="blue.400">
+      <Heading 
+        as="h1" mb={4}
+        fontSize="6xl" 
+        color="blue.400" 
+        textAlign="center" 
+      >
         Bem vindo ao PairCode
       </Heading>
-      <Text fontSize="3xl">
-        Pair Programming orientado aos estudos.
+      <Text fontSize="3xl" maxW={800} textAlign="center">
+        Pair Programming orientado aos estudos. 
+        Encontre alguém disposto a aprender junto com você.
       </Text>
       <Button mt="24px" size="lg" href="/search">
         Procurar parceiro

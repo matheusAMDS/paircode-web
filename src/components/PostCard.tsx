@@ -28,6 +28,7 @@ interface Props {
 const PostCard: React.FC<Props> = ({ post, forUser, onClose }) => {
   const router = useRouter()
   const toast = useToast()
+  console.log(post)
   const { isLogged } = useContext(AuthContext)
 
   const goToWhatsapp = (whatsapp: string) => {
@@ -59,6 +60,7 @@ const PostCard: React.FC<Props> = ({ post, forUser, onClose }) => {
         <Avatar 
           src={post.user.avatar} 
           w={150} h={150}
+          borderWidth={0}
         />
         <Heading as="h3" fontSize="2xl" mt={2}>
           {post.user.firstName} {post.user.lastName}
